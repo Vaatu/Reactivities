@@ -1,15 +1,14 @@
 import { Button, Form, FormInput, FormTextArea, Segment } from "semantic-ui-react";
-import { Activity } from "../../../app/models/activity";
 import { ChangeEvent, useState } from "react";
+import { useStore } from "../../../app/stores/store";
+import { observer } from "mobx-react-lite";
 
-interface Props {
-    activity: Activity | undefined;
-    closeForm: () => void;
-    createOrEdit: (activity: Activity) => void;
-    submitting: boolean;
-}
 
-export default function ActivityForm({ activity: selectedActivity, closeForm, createOrEdit, submitting }: Props) {
+
+export default observer(function ActivityForm() {
+    const { activityStore } = useStore();
+    const { selectedActivity, closeForm, createActivity, updateActivity, loading } = activityStore;
+
     const initialState = selectedActivity ?? {
         id: '',
         title: '',
@@ -23,8 +22,7 @@ export default function ActivityForm({ activity: selectedActivity, closeForm, cr
     const [activity, setActivity] = useState(initialState);
 
     function handleSubmit() {
-        createOrEdit(activity);
-        closeForm();
+        activity.id ? updateActivity(activity) : createActivity(activity);
     }
 
     function handleOnChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
@@ -41,9 +39,9 @@ export default function ActivityForm({ activity: selectedActivity, closeForm, cr
                 <FormInput type='date' placeholder='Date' name='date' value={activity.date} onChange={handleOnChange} />
                 <FormInput placeholder='City' name='city' value={activity.city} onChange={handleOnChange} />
                 <FormInput placeholder='Venue' name='venue' value={activity.venue} onChange={handleOnChange} />
-                <Button onClick={handleSubmit} floated="right" positive type="submit" content="Submit" loading={submitting} />
+                <Button onClick={handleSubmit} floated="right" positive type="submit" content="Submit" loading={loading} />
                 <Button onClick={closeForm} floated="right" type="button" content="Cancel" />
             </Form>
         </Segment>
     )
-}
+})
