@@ -15,7 +15,7 @@ export default observer(function ActivityDashboard() {
         loadActivities();
     }, [loadActivities, activityRegistry.size])
 
-    if (activityStore.loadingInitial) return <LoadingComponent content='Loading app' />
+    if (activityStore.loadingInitial) return <LoadingComponent content='Loading activities' />
     return (
         <Grid>
             <Grid.Column width='10' >
@@ -23,7 +23,7 @@ export default observer(function ActivityDashboard() {
             </Grid.Column>
 
             <Grid.Column width='6' >
-                <ActivityFilters/>
+                <ActivityFilters />
             </Grid.Column>
         </Grid>
     )
