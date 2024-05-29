@@ -1,4 +1,4 @@
-import {  Grid, GridColumn} from "semantic-ui-react";
+import { Grid, GridColumn } from "semantic-ui-react";
 import { useStore } from "../../../app/stores/store";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { observer } from "mobx-react-lite";
@@ -24,12 +24,12 @@ export default observer(function ActivityDetails() {
     return (
         <Grid>
             <GridColumn width={10}>
-                <ActivityDetailedHeader activity={activity}/>
-                <ActivityDetailedInfo  activity={activity}/>
+                <ActivityDetailedHeader activity={activity} />
+                <ActivityDetailedInfo activity={activity} />
                 <ActivityDetailedChat />
             </GridColumn>
             <GridColumn width={6}>
-                <ActivityDetailedSidebar />
+                <ActivityDetailedSidebar activity={activity} />
             </GridColumn>
         </Grid>)
 })
