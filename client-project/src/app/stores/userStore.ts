@@ -29,22 +29,26 @@ export default class UserStore {
         router.navigate('/activities');
         store.modalStore.closeModal();
     }
+    setImage = (image: string) => {
+        if (this.user)
+            this.user!.image = image;
+    }
 
 
 
-    
+
     logout = () => {
         store.commonStore.setToken(null);
         this.user = null;
         router.navigate('/');
     }
 
-    getUser =async () => {
+    getUser = async () => {
         try {
             const user = await agent.Account.current();
             runInAction(() => this.user = user);
         } catch (error) {
-            
+
         }
     }
 }
