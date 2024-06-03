@@ -80,7 +80,6 @@ export default class ActivityStore {
             activity.isGoing = activity.attendees!.some(a => a.username === user.username);
             activity.isHost = activity.hostUsername === user.username;
             activity.host = activity.attendees?.find(c => c.username === activity.hostUsername);
-            console.log(activity.host);
         }
 
         activity.date = new Date(activity.date!);
@@ -188,5 +187,8 @@ export default class ActivityStore {
                 ;
         }
 
+    }
+    clearSelectedActivity = () => {
+        this.selectedActivity = undefined;
     }
 }
