@@ -13,7 +13,7 @@ const sleep = (delay: number) => {
     })
 }
 
-axios.defaults.baseURL = "http://localhost:5000/api";
+axios.defaults.baseURL = import.meta.env.VITE_API_URL as string;
 
 axios.interceptors.request.use(config => {
     const token = store.commonStore.token;
@@ -23,8 +23,7 @@ axios.interceptors.request.use(config => {
 })
 
 axios.interceptors.response.use(async response => {
-
-    await sleep(1000);
+    if (import.meta.env.DEV) await sleep(1000);
     const pagination = response.headers['pagination'];
     if (pagination) {
         response.data = new PaginatedResult(response.data, JSON.parse(pagination));
@@ -76,13 +75,13 @@ const requests = {
 }
 
 const Activities = {
-    list: (params: URLSearchParams) => axios.get<PaginatedResult<Activity[]>>('/activities',{params}).then(responseBody),
+    list: (params: URLSearchParams) => axios.get<PaginatedResult<Activity[]>>('/activities', { params }).then(responseBody),
     details: (id: string) => requests.get<Activity>(`/activities/${id}`),
     create: (activity: ActivityFormValues) => requests.post<void>('/activities', activity),
     update: (activity: ActivityFormValues) => requests.put<void>(`/activities/${activity.id}`, activity),
     delete: (id: string) => requests.del<void>(`/activities/${id}`),
     attend: (id: string) => requests.post<void>(`/activities/${id}/attend`, {}),
-    
+
 }
 const Account = {
     current: () => requests.get<User>('/account'),
@@ -104,7 +103,7 @@ const Profiles = {
     update: (profile: Partial<Profile>) => requests.put<void>('/profiles', profile),
     updateFollowing: (username: string) => requests.post<void>(`/follow/${username}`, {}),
     listFollowings: (username: String, predicate: string) => requests.get<Profile[]>(`/follow/${username}?predicate=${predicate}`),
-    listActivities: (username:string, predicate:string) => requests.get<UserActivity[]>(`/profiles/${username}/activities?predicate=${predicate}`)
+    listActivities: (username: string, predicate: string) => requests.get<UserActivity[]>(`/profiles/${username}/activities?predicate=${predicate}`)
 }
 
 const agent = {

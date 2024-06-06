@@ -14,9 +14,7 @@ interface Props {
 export default observer(function ProfileEditForm({ setEditMode }: Props) {
     const { profileStore: { profile, updateProfile } } = useStore();
 
-    const validationSchema = Yup.object({
-        displayName: Yup.string().required(),
-    })
+
 
     return (
         <Formik

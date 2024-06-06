@@ -14,7 +14,7 @@ export default observer(function ProfileActivities() {
     const { profileStore } = useStore();
     const { loadingActivities, userActivities, loadUserActivities, profile } = profileStore;
 
-    const handleTabChange = (e: SyntheticEvent, data: TabProps) => {
+    const handleTabChange = (_: SyntheticEvent, data: TabProps) => {
         loadUserActivities(profile!.username, panes[data.activeIndex as
             number].pane.key);
     };
@@ -46,11 +46,11 @@ export default observer(function ProfileActivities() {
                         >
                             <Image src={`/assets/categoryImages/${activity.category}.jpg`} />
                             <CardContent  >
-                            <CardHeader textAlign='center'>{activity.title}</CardHeader>         
-                            <Card.Meta textAlign='center'>
-                                        <div>{format(new Date(activity.date), 'do LLL')}</div>
-                                        <div>{format(new Date(activity.date), 'h:mm a')}</div>
-                                    </Card.Meta>
+                                <CardHeader textAlign='center'>{activity.title}</CardHeader>
+                                <Card.Meta textAlign='center'>
+                                    <div>{format(new Date(activity.date), 'do LLL')}</div>
+                                    <div>{format(new Date(activity.date), 'h:mm a')}</div>
+                                </Card.Meta>
                             </CardContent>
                         </Card>
                     ))}
