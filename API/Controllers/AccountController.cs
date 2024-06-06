@@ -15,10 +15,17 @@ public class AccountController : ControllerBase
 {
     private readonly UserManager<AppUser> _userManager;
     private readonly TokenService _tokenService;
-    public AccountController(UserManager<AppUser> userManager, TokenService tokenService)
+    private readonly IConfiguration _config;
+    private readonly HttpClient _httpClient;
+    public AccountController(UserManager<AppUser> userManager, TokenService tokenService, IConfiguration config)
     {
         _tokenService = tokenService;
         _userManager = userManager;
+        _config = config;
+        _httpClient = new HttpClient
+        {
+            BaseAddress = new Uri("https://graph.facebook.com")
+        };
 
     }
     [AllowAnonymous]
@@ -84,5 +91,45 @@ public class AccountController : ControllerBase
         return CreatUserObject(user);
 
     }
+
+    [AllowAnonymous]
+    [HttpPost("fbLogin")]
+    public async Task<ActionResult<UserDto>> FacebookLogin(string accessToken)
+    {
+        var fbVerifyKeys = _config["Facebook:AppId"] + "|" + _config["Facebook:AppSecret"];
+
+        var verifyTokenResponse = await _httpClient.GetAsync($"debug_token?input_token={accessToken}&access_token={fbVerifyKeys}");
+        if (!verifyTokenResponse.IsSuccessStatusCode) return Unauthorized();
+        var fbUrl = $"me?access_token={accessToken}&fields=name,email,picture.width(100).height(100)";
+
+        var fbInfo = await _httpClient.GetFromJsonAsync<FacebookDto>(fbUrl);
+        var user = await _userManager.Users.Include(p => p.Photos)
+        .FirstOrDefaultAsync(x => x.Email == fbInfo.Email);
+
+        if (user != null) return CreatUserObject(user);
+
+        user = new AppUser
+        {
+            DisplayName = fbInfo.Name,
+            Email = fbInfo.Email,
+            UserName = fbInfo.Email,
+            Photos = new List<Photo>
+            {
+                new Photo
+                {
+                    Id = "fb_" + fbInfo.Id,
+                    Url = fbInfo.Picture.Data.Url,
+                    IsMain = true
+                }
+            }
+        };
+        
+        var result = await _userManager.CreateAsync(user);
+        if (!result.Succeeded) return BadRequest("Problem creating user account");
+        
+
+        return new UserDto();
+    }
+
 }
 
