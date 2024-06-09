@@ -26,20 +26,21 @@ export default class UserStore {
         store.modalStore.closeModal();
     }
     register = async (creds: UserFormValues) => {
-        const user = await agent.Account.register(creds);
-        store.commonStore.setToken(user.token);
-        this.startRefreshTokenTimer(user);
-        runInAction(() => this.user = user);
-        router.navigate('/activities');
-        store.modalStore.closeModal();
+        try {
+            await agent.Account.register(creds);
+            router.navigate(`/account/registerSuccess?email=${creds.email}`);
+            store.modalStore.closeModal();
+        } catch (error: any) {
+            if (error?.response?.status === 400) throw error.response.data;
+            store.modalStore.closeModal();
+            console.log(error);
+        }
+
     }
     setImage = (image: string) => {
         if (this.user)
             this.user!.image = image;
     }
-
-
-
 
     logout = () => {
         store.commonStore.setToken(null);
@@ -99,7 +100,7 @@ export default class UserStore {
     private startRefreshTokenTimer(user: User) {
         const jwtToken = JSON.parse(atob(user.token.split('.')[1]));
         const expires = new Date(jwtToken.exp * 1000);
-        const timeout = expires.getTime() - Date.now() - (30 * 1000);
+        const timeout = expires.getTime() - Date.now() - (60 * 1000);
         this.refreshTokenTimeout = setTimeout(this.refreshToken, timeout);
         console.log({ refreshTimeout: this.refreshTokenTimeout });
     }
