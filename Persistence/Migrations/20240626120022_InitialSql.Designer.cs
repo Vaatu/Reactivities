@@ -12,8 +12,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240626114131_AllowNullRevoked")]
-    partial class AllowNullRevoked
+    [Migration("20240626120022_InitialSql")]
+    partial class InitialSql
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

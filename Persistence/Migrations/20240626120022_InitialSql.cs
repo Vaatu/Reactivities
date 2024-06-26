@@ -256,7 +256,7 @@ namespace Persistence.Migrations
                     AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Token = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Experies = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Revoked = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Revoked = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
