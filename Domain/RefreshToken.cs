@@ -7,6 +7,6 @@ public class RefreshToken
     public string Token { get; set; }
     public DateTime Experies { get; set; } = DateTime.UtcNow.AddDays(7);
     public bool IsExpired => DateTime.UtcNow >= Experies;
-    public DateTime Revoked { get; set; }  
+    public DateTime? Revoked { get; set; }  
     public bool IsActive => Revoked == null && !IsExpired;
     }
