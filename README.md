@@ -87,9 +87,9 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 For any inquiries or feedback, please contact me at:
 
-- Email: your.email@example.com
-- LinkedIn: [Your LinkedIn](https://www.linkedin.com/in/muhammad-elarabi/)
-- GitHub: [Your GitHub](https://github.com/vaatu)
+- Email: admin@vaatu.dev
+- LinkedIn: [LinkedIn](https://www.linkedin.com/in/muhammad-elarabi/)
+- GitHub: [GitHub](https://github.com/vaatu)
 
 ## Live Demo
 
