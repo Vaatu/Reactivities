@@ -6,3 +6,4 @@ services:
       MSSQL_SA_PASSWORD: "ASDqwe@123"
     ports:
       - "1433:1433"
+      
