@@ -28,7 +28,7 @@ Reactivities is a demo project built as part of the Udemy course "Complete guide
 
 ## Technologies Used
 
-- Frontend: React, Redux, TypeScript, Semantic UI
+- Frontend: React, MobX, TypeScript, Semantic UI
 - Backend: .NET Core, Entity Framework Core
 - Database: SQL Server
 - Authentication: IdentityServer4
