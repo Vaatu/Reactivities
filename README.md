@@ -93,4 +93,4 @@ For any inquiries or feedback, please contact me at:
 
 ## Live Demo
 
-Check out the live demo of the application: [Reactivities Demo](https://reacivities-demo.azurewebsites.net/)
+Check out the live demo of the application: [Reactivities Demo](https://reacivities.vaatu.dev/)
